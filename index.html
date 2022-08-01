@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+        #audio{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" width="98%" height="98%" controls>
+        <source id="videoSrc" src="" type="video/webm">
+    </video>
+    <video id="audio" width="98%" height="98%" controls>
+        <source id="audioSrc" src="" type="video/webm">
+    </video>
+      <script>
+        let videoLink = prompt("Enter video link: ");
+        url = new URL(videoLink);
+        params = new URLSearchParams(url.search);
+        document.querySelector("#videoSrc").src = `https://meet.prograd.org/presentation/${params.get("meetingId")}/deskshare/deskshare.webm`
+        document.querySelector("#audioSrc").src = `https://meet.prograd.org/presentation/${params.get("meetingId")}/video/webcams.webm`
+
+        const videoBox = document.querySelector("#video")
+        const audioBox = document.querySelector("#audio")
+        videoBox.onpause = () =>{
+            audioBox.pause();
+        }
+        video.onplaying = (e) =>{
+            audioBox.play();
+            audioBox.currentTime = e.target.currentTime;
+        }
+        videoBox.onseeked = (e) =>{
+            audioBox.currentTime = e.target.currentTime;
+        }
+        videoBox.onratechange = (e) =>{
+            audioBox.playbackRate = e.target.defaultPlaybackRate;
+        }
+      </script>
+</body>
+</html>
